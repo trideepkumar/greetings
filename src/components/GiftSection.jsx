@@ -7,16 +7,39 @@ const AMOUNTS = [51, 101, 251, 501, 1001, 2001];
 export default function VishuKaineettam() {
   const [amount, setAmount] = useState(101);
 
+
   const handleKaineettam = () => {
     const upiId = "9061117489@upi";
     const upiUrl = `upi://pay?pa=${upiId}&pn=Vishu%20Kaineettam&am=${amount}&cu=INR&tn=Vishu%20Kaineettam%20Blessings`;
 
+    // Check if it's mobile
     if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      window.location.href = upiUrl;
+      // Create a temporary hidden anchor element
+      const link = document.createElement("a");
+      link.href = upiUrl;
+      link.style.display = "none";
+      document.body.appendChild(link);
+      
+      // Trigger the click
+      link.click();
+      
+      // Cleanup
+      document.body.removeChild(link);
     } else {
-      alert("ദയവായി മൊബൈലിൽ ഇത് ഉപയോഗിക്കുക (Please use a mobile device).");
+      alert("ദയവായി മൊബൈലിൽ ഇത് ഉപയോഗിക്കുക ! (Please use a mobile device).");
     }
   };
+
+  // const handleKaineettam = () => {
+  //   const upiId = "9061117489@upi";
+  //   const upiUrl = `upi://pay?pa=${upiId}&pn=Vishu%20Kaineettam&am=${amount}&cu=INR&tn=Vishu%20Kaineettam%20Blessings`;
+
+  //   if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+  //     window.location.href = upiUrl;
+  //   } else {
+  //     alert("ദയവായി മൊബൈലിൽ ഇത് ഉപയോഗിക്കുക (Please use a mobile device).");
+  //   }
+  // };
 
   return (
     <section className="relative min-h-screen bg-[#120802] flex flex-col items-center justify-center overflow-hidden py-20 font-serif">
@@ -176,130 +199,3 @@ export default function VishuKaineettam() {
     </section>
   );
 }
-
-// import { useState } from 'react';
-// import { motion, AnimatePresence } from 'framer-motion';
-// import { Send } from 'lucide-react';
-
-// const AMOUNTS = [51, 101, 251, 501, 1001];
-
-// export default function VishuKaineettam() {
-//   const [amount, setAmount] = useState(101);
-
-//   const handleKaineettam = () => {
-//     const upiId = '9061117489@upi';
-//     const name = encodeURIComponent('Vishu Kaineettam');
-//     const note = encodeURIComponent('Happy Vishu - Kaineettam');
-//     const upiUrl = `upi://pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR&tn=${note}`;
-
-//     if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-//       window.location.href = upiUrl;
-//     } else {
-//       alert("Please open this on a mobile device to send Kaineettam via UPI.");
-//     }
-//   };
-
-//   return (
-//     <section className="relative min-h-screen bg-[#080400] flex flex-col items-center justify-center overflow-hidden py-20">
-//       {/* Soft Ambient Glow */}
-//       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(218,165,32,0.1),transparent_70%)]" />
-
-//       <div className="relative z-10 w-full max-w-md px-6 text-center">
-//         {/* The "Offering" Animation */}
-//         <div className="relative h-64 flex items-center justify-center mb-8">
-//           {/* Decorative circular rays */}
-//           <motion.div
-//             animate={{ rotate: 360 }}
-//             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-//             className="absolute w-48 h-48 border border-dashed border-yellow-600/20 rounded-full"
-//           />
-
-//           {/* The Gold Coin (Current Selection) */}
-//           <AnimatePresence mode="wait">
-//             <motion.div
-//               key={amount}
-//               initial={{ scale: 0, rotateY: 180 }}
-//               animate={{ scale: 1, rotateY: 0 }}
-//               exit={{ scale: 0, opacity: 0 }}
-//               className="w-32 h-32 rounded-full bg-gradient-to-tr from-yellow-700 via-yellow-400 to-yellow-200 flex items-center justify-center shadow-[0_0_50px_rgba(234,179,8,0.4)] border-4 border-yellow-600/50"
-//             >
-//               <div className="text-center">
-//                 <span className="block text-[10px] uppercase font-bold text-yellow-900/60 leading-none">₹</span>
-//                 <span className="text-4xl font-display font-black text-yellow-950">{amount}</span>
-//               </div>
-//             </motion.div>
-//           </AnimatePresence>
-
-//           {/* Floating Petals/Coins decoration */}
-//           {[...Array(5)].map((_, i) => (
-//             <motion.div
-//               key={i}
-//               className="absolute w-2 h-2 bg-yellow-400 rounded-full"
-//               animate={{
-//                 y: [0, -100],
-//                 x: [0, (i - 2) * 30],
-//                 opacity: [0, 1, 0],
-//                 scale: [0, 1.5, 0]
-//               }}
-//               transition={{
-//                 duration: 3,
-//                 repeat: Infinity,
-//                 delay: i * 0.4,
-//                 ease: "easeOut"
-//               }}
-//             />
-//           ))}
-//         </div>
-
-//         <h2 className="font-display text-2xl text-yellow-100 mb-8 tracking-wide">
-//           Select Your Dakshina
-//         </h2>
-
-//         {/* Traditional Coin Selection */}
-//         <div className="flex flex-wrap justify-center gap-4 mb-12">
-//           {AMOUNTS.map((amt) => (
-//             <motion.button
-//               key={amt}
-//               whileTap={{ scale: 0.9 }}
-//               onClick={() => setAmount(amt)}
-//               className={`relative w-16 h-16 rounded-full flex items-center justify-center transition-all border-2 ${amount === amt
-//                 ? 'bg-yellow-500 border-white text-black shadow-lg shadow-yellow-500/50'
-//                 : 'bg-black/40 border-yellow-900/40 text-yellow-600'
-//                 }`}
-//             >
-//               <span className="font-bold text-sm">₹{amt}</span>
-//               {amount === amt && (
-//                 <motion.div
-//                   layoutId="active-ring"
-//                   className="absolute -inset-2 border border-yellow-400 rounded-full"
-//                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-//                 />
-//               )}
-//             </motion.button>
-//           ))}
-//         </div>
-
-//         {/* Main Action */}
-//         <motion.button
-//           whileHover={{ scale: 1.05 }}
-//           whileTap={{ scale: 0.95 }}
-//           onClick={handleKaineettam}
-//           className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-b from-yellow-400 to-yellow-600 p-[1px]"
-//         >
-//           <div className="bg-[#120a00] group-hover:bg-transparent transition-colors rounded-[15px] py-5 px-8 flex items-center justify-center gap-3">
-//             <img width="48" height="48" src="https://img.icons8.com/color/48/google-pay.png" alt="google-pay" />
-//             {/* <img src="https://www.gstatic.com/images/branding/product/2x/googleg_color_92dp.png" alt="G" className="w-5 h-5" /> */}
-//             <span className="text-yellow-400 group-hover:text-black font-bold uppercase tracking-[0.2em] text-sm transition-colors">
-//               Offer Kaineettam
-//             </span>
-//             <Send size={16} className="text-yellow-400 group-hover:text-black transition-colors" />
-//           </div>
-//         </motion.button>
-
-//         <p className="mt-8 text-yellow-700/50 text-[10px] uppercase tracking-[0.3em]">
-//           Directly opens your UPI App
-//         </p>
-//       </div>
-//     </section>
-//   );
-// }
